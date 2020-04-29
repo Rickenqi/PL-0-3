@@ -61,4 +61,6 @@ void deal_encode(string &line)
         // 非终结符记录当前字符
         cur+=line[i];
     }
+    // 换行符
+    total.emplace_back("endline","endl");
 }
