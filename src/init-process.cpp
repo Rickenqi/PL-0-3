@@ -1,4 +1,5 @@
 #include "variables.h"
+#include "exp3.h"
 #include <iostream>
 using namespace std;
 
@@ -37,6 +38,7 @@ void deal_encode(string &line)
     {
         if(line[i]==' '||ender.count(line[i])) // 在终结符处进行处理
         {
+            bool new_element = true;
             // 分别处理关键字，标识符，数字
             if(cur.length() && encoder.count(cur))
                 total.emplace_back(encoder[cur], cur);
@@ -47,7 +49,9 @@ void deal_encode(string &line)
             else if(cur.length())
             {
                 cout << "error occur: " << cur;
+                new_element = false;
             }
+            else new_element = false;
             // 处理完毕，清空cur
             cur="";
             // 处理运算符（终结符）
@@ -61,15 +65,22 @@ void deal_encode(string &line)
                     i++;
                 }
                 total.emplace_back(encoder[Ender],Ender);
+                new_element = true;
             }
-            math_exp.emplace_back(total.back());
+            if(new_element && is_exp)
+                math_exp.emplace_back(total.back());
             continue;
         }
         // 非终结符记录当前字符
         cur+=line[i];
     }
-    for(int i = 0; i < math_exp.size(); i++)
-        cout << "(" << math_exp[i].first << "," << math_exp[i].second << ")" << endl;
     // 换行符
+    if(is_exp) {
+        cout << line << endl;
+        for(int i = 0; i < math_exp.size(); i++)
+            cout << "(" << math_exp[i].first << "," << math_exp[i].second << ")" << endl;
+        exp3 exp(math_exp);
+        exp.print_ret();
+    }
     total.emplace_back("endline","endl");
 }

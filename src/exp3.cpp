@@ -46,7 +46,7 @@ bool exp3::expression(int w = 1) {
     // 判断表达式非法的条件就是上面的循环是否读取完了所有的字符，并且发生错误
     if (flag && w == 0 && cur_pos != vec.size()) {
         flag = 0;
-        error_information.push_back("表达式链接符非法！");
+        error_information.push_back("the link symbol of the expression is invalid");
     }
 
     return flag;
@@ -71,7 +71,7 @@ bool exp3::factor() {
     // 已经位于表达式的最右端，但是项任然需要一个因子
     if (cur_pos == vec.size()) {
         flag = 0;
-        error_information.push_back("表达式非法结束或表达式不完整！");
+        error_information.push_back("the expression has an invalid ending or uncomplete !");
     }
     // 注意，因子已经是最小单位，因此无需循环
     // 直接判断当前的项是什么
@@ -84,7 +84,7 @@ bool exp3::factor() {
         if (flag && cur_pos < vec.size() && vec[cur_pos].first == "rparen") cur_pos++;
         else if (flag){
             flag = 0;
-            error_information.push_back("缺失右括号!");
+            error_information.push_back("the rparen is missing !");
         }
     }
     else if (flag){
@@ -92,10 +92,10 @@ bool exp3::factor() {
         // 这里经过上面几个判断之后，除了右括号以外就是其他乱七八糟的东西，因此，这里的情况是"()"括号中没有任何表达式
         // 并且，括号闭合已经在上面进行过了判断
         if (cur_pos - 1 >= 0 && vec[cur_pos - 1].first == "lparen")
-            error_information.push_back("左括号后缺少表达式！");
+            error_information.push_back("a expression is needed after the lparen!");
         // 这个是乱七八糟的东西
         else
-            error_information.push_back("符号'" + vec[cur_pos].second + "'前缺失数字或标识符！");
+            error_information.push_back("symbol'" + vec[cur_pos].second + "'need a previous identifier or number!");
     }
 
     return flag;

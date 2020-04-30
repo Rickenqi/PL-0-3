@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
         input_file(filename);
         for (auto &c : content) {
             deal_encode(c);
-            cout << c << endl;
+            // cout << c << endl;
         }
         // output_file(filename);
     }
