@@ -14,4 +14,5 @@ extern std::vector<std::pair<string, string>> total;
 void input_file(string filename);
 void output_file(string filename);
 void init();
+void deal_encode(string &line);
 #endif //PL_0_2_VARIABLES_H

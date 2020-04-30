@@ -23,9 +23,15 @@ void init() {
 
 void deal_encode(string &line)
 {
+    bool is_exp = false;
+    vector<pair<string, string>> math_exp;
     // 正则符，分别匹配数字和标识符
     regex number("[0-9]+"),identifier("[a-z]([a-z]|[0-9])*");
     string cur;
+    // 是否是算术表达式
+    if(regex_search(line,identifier) || regex_search(line,number)) {
+        is_exp = true;
+    }
     // 每次记录终结符之间的字符，在第二个终结符出现时进行处理
     for(int i=0;i<line.length();++i)
     {
@@ -33,7 +39,7 @@ void deal_encode(string &line)
         {
             // 分别处理关键字，标识符，数字
             if(cur.length() && encoder.count(cur))
-                total.emplace_back(encoder[cur],cur);
+                total.emplace_back(encoder[cur], cur);
             else if(cur.length() && regex_match(cur,identifier))
                 total.emplace_back("ident",cur);
             else if(cur.length() && regex_match(cur,number))
@@ -56,11 +62,14 @@ void deal_encode(string &line)
                 }
                 total.emplace_back(encoder[Ender],Ender);
             }
+            math_exp.emplace_back(total.back());
             continue;
         }
         // 非终结符记录当前字符
         cur+=line[i];
     }
+    for(int i = 0; i < math_exp.size(); i++)
+        cout << "(" << math_exp[i].first << "," << math_exp[i].second << ")" << endl;
     // 换行符
     total.emplace_back("endline","endl");
 }

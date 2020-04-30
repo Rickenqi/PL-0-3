@@ -1,0 +1,8 @@
+var a, b, c, r;
+begin
+    a + b
+    b + c
+    c + d
+    a + c / a
+    (a + b / a
+end.
